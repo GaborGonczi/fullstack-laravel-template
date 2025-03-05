@@ -75,14 +75,9 @@ class ProjectSetup extends Command
             $this->{$packages[$package]}();
         }
 
-
-        $this->publishMigrations();
-
         $this->runSailCommand('php', 'artisan', 'migrate');
 
         $this->runSailCommand('php', 'artisan', 'key:generate');
-
-
 
         $this->info('Project setup complete!');
     }
@@ -162,10 +157,15 @@ class ProjectSetup extends Command
             $this->runSailCommand('composer', 'require', 'tomatophp/filament-pwa');
         }
 
-        $this->runSailCommand('php', 'artisan', 'filament-pwa:install');
-        $this->runSailCommand('php', 'artisan', 'vendor:publish', ['--provider="Spatie\LaravelSettings\LaravelSettingsServiceProvider" --tag="migrations"']);
+        $this->runSailCommand('php', 'artisan', 'vendor:publish', ['--provider=Spatie\LaravelSettings\LaravelSettingsServiceProvider', '--tag=migrations']);
 
-        $this->installFilamentSettingsHub();
+        $this->runSailCommand('php', 'artisan', 'migrate');
+
+        $this->info('Installing Filament Settings Hub...');
+
+        $this->runSailCommand('php', 'artisan', 'filament-settings-hub:install');
+
+        $this->runSailCommand('php', 'artisan', 'filament-pwa:install');
 
         $this->info('Registering Filament PWA plugin...');
         $adminPanelProviderFile = file_get_contents(base_path('app/Providers/Filament/AdminPanelProvider.php'));
@@ -175,17 +175,6 @@ class ProjectSetup extends Command
         $this->runSailCommand('php', 'artisan', 'vendor:publish', ['--tag="filament-pwa-config"']);
         $this->runSailCommand('php', 'artisan', 'vendor:publish', ['--tag="filament-pwa-views"']);
         $this->runSailCommand('php', 'artisan', 'vendor:publish', ['--tag="filament-pwa-lang"']);
-    }
-
-    /**
-     * Install the Filament Settings Hub package.
-     *
-     * @return void
-     */
-    private function installFilamentSettingsHub()
-    {
-        $this->info('Installing Filament Settings Hub...');
-        $this->runSailCommand('php', 'artisan', 'filament-settings-hub:install');
     }
 
     /**
@@ -260,17 +249,6 @@ class ProjectSetup extends Command
         }
 
         $this->runSailCommand('php', 'artisan', 'rest-presenter:filament', ['--install']);
-    }
-
-    /**
-     * Publish the necessary migrations for the app.
-     *
-     * @return void
-     */
-    private function publishMigrations()
-    {
-        $this->info('Publishing migrations...');
-        $this->runSailCommand('php', 'artisan', 'vendor:publish', ['--provider="Spatie\LaravelSettings\LaravelSettingsServiceProvider" --tag="migrations"']);
     }
 
     /**
