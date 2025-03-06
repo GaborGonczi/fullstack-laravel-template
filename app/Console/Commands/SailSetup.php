@@ -43,21 +43,19 @@ class SailSetup extends Command
 
     $this->info('Sail installed successfully ');
 
-    $this->info('Start Sail container...');
-
-    $process = new Process(['./vendor/bin/sail', 'up', '-d']);
-    $process->setTimeout(null);
-    $process->run();
-    if (!$process->isSuccessful()) {
-      $this->error('Failed to start Sail: ' . $process->getErrorOutput());
-      return;
-    }
-
-    $this->info('Sail started successfully. Now running...');
-
     $this->info('Create devscript');
 
     $this->createDevScript();
+
+    $this->info('Start Sail container...');
+
+    $process = new Process(['./bin/dev', 'start']);
+
+    $process->run();
+
+    $this->info('Sail started successfully. Now running...');
+
+  
   }
 
   /**

@@ -1,13 +1,20 @@
 # Prerequisites
 
-Install docker and wsl (only on Windows)
+Install Docker and WSL (only on Windows).
 
 # How to Use
 
-Clone the repo, and in the project root dir run `php artisan fullstack:sail`, then from the container run `php artisan fullstack:packages`.
+Create a new repository based on this template, then clone that.
 
-To stop container exit from it then run `./bin/dev stop`.
+In the project root directory, run `composer install`.
 
-To start container run `./bin/dev start`. (It automatically login to the container).
+Then, run `php artisan fullstack:sail` to set up and start the developer container.
+During this process, you'll choose the appropriate database. If you encounter an error, restart Docker and WSL.
 
-To restart container run `./bin/dev restart`.
+To start the container, run `./bin/dev start` (it will log you in by default). Use this command for future starts.
+
+To install predefined packages, run: `php artisan fullstack:packages`.
+
+To stop the container, exit and run `./bin/dev stop`.
+
+To restart the container, run `./bin/dev restart`.
