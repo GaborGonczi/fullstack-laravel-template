@@ -233,7 +233,7 @@ class ProjectSetup extends Command
         $adminPanelProviderFile = str_replace(');', ")\n->plugin(\Solutionforest\FilamentScaffold\FilamentScaffoldPlugin::make());", $adminPanelProviderFile);
         file_put_contents(base_path('app/Providers/Filament/AdminPanelProvider.php'), $adminPanelProviderFile);
 
-        $this->runSailCommand('php', 'artisan', 'vendor:publish', ['--provider="Solutionforest\FilamentScaffold\FilamentScaffoldServiceProvider" --tag="filament-scaffold-config"']);
+        $this->runSailCommand('php', 'artisan', 'vendor:publish', ['--provider=Solutionforest\FilamentScaffold\FilamentScaffoldServiceProvider' ,'--tag=filament-scaffold-config']);
     }
 
     /**
