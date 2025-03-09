@@ -172,9 +172,9 @@ class ProjectSetup extends Command
         $adminPanelProviderFile = str_replace(');', ")\n->plugin(\TomatoPHP\FilamentPWA\FilamentPWAPlugin::make());", $adminPanelProviderFile);
         file_put_contents(base_path('app/Providers/Filament/AdminPanelProvider.php'), $adminPanelProviderFile);
 
-        $this->runSailCommand('php', 'artisan', 'vendor:publish', ['--tag="filament-pwa-config"']);
-        $this->runSailCommand('php', 'artisan', 'vendor:publish', ['--tag="filament-pwa-views"']);
-        $this->runSailCommand('php', 'artisan', 'vendor:publish', ['--tag="filament-pwa-lang"']);
+        $this->runSailCommand('php', 'artisan', 'vendor:publish', ['--tag=filament-pwa-config']);
+        $this->runSailCommand('php', 'artisan', 'vendor:publish', ['--tag=filament-pwa-views']);
+        $this->runSailCommand('php', 'artisan', 'vendor:publish', ['--tag=filament-pwa-lang']);
     }
 
     /**
