@@ -86,6 +86,36 @@ class SailSetup extends Command
          
          PROJECT_ROOT=\$(cd "\$(dirname "\$(dirname "\$0")")"; pwd)
          SAIL="\$PROJECT_ROOT/vendor/bin/sail"
+
+         usage() {
+            cat << EOF
+             Usage: dev [command]
+
+             This script manages your Laravel Sail container.
+
+             Commands:
+               start   - Start the container (if needed) and open a shell.
+                         (Executes: \$SAIL up -d && \$SAIL shell)
+               stop    - Stop the container.
+                         (Executes: \$SAIL down)
+               restart - Restart the container and open a shell.
+                         (Executes: \$SAIL down && \$SAIL up -d && \$SAIL shell)
+               login   - Open a shell in a running container without starting it.
+                         (Executes: \$SAIL shell)
+
+             The script checks for Sail at:
+               \$PROJECT_ROOT/vendor/bin/sail
+             If missing, run: php artisan fullstack:sail
+
+             Examples:
+               dev start    - Start container and open shell.
+               dev stop     - Stop container.
+               dev restart  - Restart container and open shell.
+               dev login    - Log in to a running container.
+
+             Note: "login" is separate for clarity, though "start" is safe if the container is already running.
+         EOF
+          }
          
          if [ ! -f "\$SAIL" ]; then
            echo " Laravel Sail not installed! Run: php artisan fullstack:sail"
@@ -105,9 +135,18 @@ class SailSetup extends Command
              echo " Restart sail..."
              \$SAIL down && \$SAIL up -d && \$SAIL shell
              ;;
-           *)
-             echo "Használat: dev [start|stop|restart]"
+           login)
+             echo "Entering the container's shell (without trying to start it)"
+             \$SAIL shell
              ;;
+           help|--help|-h)
+             usage
+             ;;
+           *)
+             echo "Invalid command!"
+             usage
+             exit 1
+             ;;  
          esac
          SCRIPT;
 
